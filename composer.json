@@ -1,0 +1,29 @@
+{
+    "name": "amirkateb/ai-core-client",
+    "description": "Official PHP SDK for KatebSaber AI Core Gateway",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "ext-curl": "*",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "AmirKateb\\AiCoreClient\\": "src/"
+        }
+    },
+    "support": {
+        "source": "https://github.com/amirkateb/ai-core-client"
+    },
+    "keywords": [
+        "ai",
+        "sdk",
+        "chat",
+        "vision",
+        "ocr",
+        "speech",
+        "embeddings",
+        "gateway"
+    ]
+}
