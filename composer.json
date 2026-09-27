@@ -1,16 +1,29 @@
 {
     "name": "amirkateb/ai-core-client",
-    "description": "Official PHP SDK for KatebSaber AI Core Gateway",
+    "description": "Official PHP and Laravel 8-13 SDK for KatebSaber AI Core Gateway",
     "type": "library",
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": ">=8.0 <9.0",
         "ext-curl": "*",
         "ext-json": "*"
+    },
+    "suggest": {
+        "illuminate/support": "Enables automatic Laravel 8-13 container and facade integration."
     },
     "autoload": {
         "psr-4": {
             "AmirKateb\\AiCoreClient\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AmirKateb\\AiCoreClient\\Laravel\\AiCoreServiceProvider"
+            ],
+            "aliases": {
+                "AiCore": "AmirKateb\\AiCoreClient\\Laravel\\Facades\\AiCore"
+            }
         }
     },
     "support": {
@@ -19,7 +32,12 @@
     "keywords": [
         "ai",
         "sdk",
+        "laravel",
+        "laravel-8",
+        "laravel-13",
         "chat",
+        "failover",
+        "auto-switch",
         "vision",
         "ocr",
         "speech",
