@@ -135,7 +135,7 @@ final class Transport
 
     private function headers(array $headers): array
     {
-        $base = ['Authorization: Bearer '.$this->apiKey, 'User-Agent: AmirKateb-AI-Core-PHP/1.0.0'];
+        $base = ['Authorization: Bearer '.$this->apiKey, 'User-Agent: AmirKateb-AI-Core-PHP/1.0.1'];
         foreach ($this->defaultHeaders as $name => $value) $base[] = $name.': '.$value;
         foreach ($headers as $key => $value) $base[] = is_int($key) ? $value : $key.': '.$value;
         return array_values(array_filter($base, function ($header): bool {

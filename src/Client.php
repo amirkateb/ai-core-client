@@ -6,7 +6,7 @@ use AmirKateb\AiCoreClient\Http\Transport;
 
 final class Client
 {
-    public const VERSION = '1.0.0';
+    public const VERSION = '1.0.1';
     public const AUTO_SWITCH_PREFIX = 'auto_switch:';
 
     private Transport $http;
@@ -49,6 +49,7 @@ final class Client
     public function chat(array $payload, ?string $idempotencyKey = null): RequestHandle { return $this->submit('/chat', $payload, $idempotencyKey); }
     public function chatStream(array $payload, ?string $idempotencyKey = null): RequestHandle { return $this->submit('/chat/stream', $payload, $idempotencyKey); }
     public function text(array $payload, ?string $idempotencyKey = null): RequestHandle { return $this->submit('/text', $payload, $idempotencyKey); }
+    public function systemOne(array $payload, ?string $idempotencyKey = null): RequestHandle { return $this->submit('/system-one', $payload, $idempotencyKey); }
     public function imageGeneration(array $payload, ?string $key = null): RequestHandle { return $this->submit('/images/generations', $payload, $key); }
     public function speech(array $payload, ?string $key = null): RequestHandle { return $this->submit('/audio/speech', $payload, $key); }
     public function embeddings(array $payload, ?string $key = null): RequestHandle { return $this->submit('/embeddings', $payload, $key); }

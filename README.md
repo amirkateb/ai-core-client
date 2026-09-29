@@ -1,4 +1,4 @@
-# AI Core PHP SDK · v1.0.0
+# AI Core PHP SDK · v1.0.1
 
 > Official PHP client for **KatebSaber AI Core Gateway** — one durable API for multi-provider AI, queues, streaming, media, observability and **Auto Switch failover profiles**.
 
@@ -10,7 +10,7 @@
 
 Your application talks to one stable contract while AI Core handles provider routing, Xray/proxy policy, queues, retries, usage, logs and failover behind the gateway.
 
-- Chat, Text, Responses, Vision, OCR, Image, Audio, Embeddings, Moderation, Rerank, Document and Video APIs
+- Chat, Text, **System One (Noul/Choice/Score)**, Responses, Vision, OCR, Image, Audio, Embeddings, Moderation, Rerank, Document and Video APIs
 - Durable async requests with `RequestHandle`
 - Resumable SSE with `Last-Event-ID`
 - Batch requests and signed webhooks
@@ -49,6 +49,37 @@ $result = $request->wait();
 
 echo $result['result']['content'] ?? '';
 ```
+
+## v1m System One
+
+AI Core exposes the v1m decision engine as a dedicated capability instead of pretending it is a chat model. A company must be allowed to use a specific `v1m:<model>` first.
+
+```php
+$request = $ai->systemOne([
+    'model' => 'v1m:v1m-latest',
+    'state' => 'تراکنش شبانه با الگوی غیرعادی انجام شده است.',
+    'questions' => [
+        'is_fraud' => [
+            'type' => 'noul',
+            'instructions' => 'احتمال تقلب بالا است؟',
+        ],
+        'action' => [
+            'type' => 'choice',
+            'choices' => ['مسدودسازی', 'تایید دومرحله‌ای', 'تایید'],
+        ],
+        'risk' => [
+            'type' => 'score',
+            'min' => 0,
+            'max' => 100,
+        ],
+    ],
+], Client::idempotencyKey('system-one'));
+
+$result = $request->wait();
+print_r($result['result']['answers'] ?? []);
+```
+
+The required API-key scope is `inference:system_one`. Model discovery is available through `models('system_one')`.
 
 ## Auto Switch profiles
 
@@ -207,6 +238,8 @@ $retry = $handle->retry(); // New request from a failed/cancelled request
 
 Terminal states are `success`, `failed` and `cancelled`.
 
+Every accepted/request resource also exposes `queue` as `local` or `api`. Local Ollama work is serialized by the gateway, while remote API-provider work runs on the separate parallel API worker pool.
+
 ## Files and media
 
 ```php
@@ -237,6 +270,7 @@ $batch = $ai->batchBuilder()
     ->metadata(['job' => 'nightly-enrichment'])
     ->chat('provider:model', ['message' => 'خلاصه کن: ...'], 'item_1')
     ->chat('auto_switch:'.$profileId, ['message' => 'با failover خلاصه کن: ...'], 'item_2')
+    ->systemOne('v1m:v1m-latest', ['state' => '...', 'questions' => ['risk' => ['type' => 'score', 'min' => 0, 'max' => 100]]], 'item_3')
     ->embeddings('provider:embedding-model', ['input' => ['متن اول', 'متن دوم']], 'item_3')
     ->send(Client::idempotencyKey('batch'));
 
@@ -280,6 +314,7 @@ try {
 | Discovery | `status`, `health`, `models`, `capabilities`, `usage`, `limits` |
 | Auto Switch | `autoSwitchProfiles`, `autoSwitchProfile`, `chatWithProfile`, `chatStreamWithProfile`, `textWithProfile` |
 | Text | `chat`, `chatStream`, `text`, `createResponse` |
+| System One | `systemOne` |
 | Image/Vision | `imageGeneration`, `imageEdit`, `visionAnalyze`, `ocr` |
 | Audio | `audioAnalyze`, `speech`, `transcription`, `audioTranslation` |
 | Data/Safety | `embeddings`, `moderation`, `rerank` |
@@ -299,7 +334,7 @@ try {
 
 ## Versioning
 
-This package follows Semantic Versioning. `1.0.0` is the first stable contract containing Auto Switch profile discovery/execution and Laravel 8–13 integration.
+This package follows Semantic Versioning. `1.0.1` adds the dedicated v1m System One API (`systemOne()` / `BatchBuilder::systemOne()`) while preserving the stable Auto Switch and Laravel 8–13 contract introduced in 1.0.0.
 
 ---
 

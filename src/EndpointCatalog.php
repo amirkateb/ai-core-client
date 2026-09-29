@@ -7,7 +7,7 @@ final class EndpointCatalog
     public const ENDPOINTS = [
         'GET /status', 'GET /health', 'GET /usage', 'GET /limits', 'GET /models', 'GET /capabilities',
         'GET /auto-switch/profiles', 'GET /auto-switch/profiles/{profileId}',
-        'POST /chat', 'POST /chat/stream', 'POST /text', 'POST /images/generations', 'POST /images/edits',
+        'POST /chat', 'POST /chat/stream', 'POST /text', 'POST /system-one', 'POST /images/generations', 'POST /images/edits',
         'POST /vision/analyze', 'POST /ocr', 'POST /audio/analyze', 'POST /audio/speech', 'POST /embeddings',
         'POST /audio/transcriptions', 'POST /audio/translations', 'POST /moderations', 'POST /rerank',
         'POST /documents/analyze', 'POST /video/analyze', 'POST /videos/generations', 'POST /responses',

@@ -22,6 +22,7 @@ final class BatchBuilder
 
     public function chat(string $model, array $payload, ?string $clientRequestId = null): self { return $this->add('chat', $model, $payload, $clientRequestId); }
     public function text(string $model, array $payload, ?string $clientRequestId = null): self { return $this->add('text', $model, $payload, $clientRequestId); }
+    public function systemOne(string $model, array $payload, ?string $clientRequestId = null): self { return $this->add('system_one', $model, $payload, $clientRequestId); }
     public function response(string $model, array $payload, ?string $clientRequestId = null): self { return $this->add('responses', $model, $payload, $clientRequestId); }
     public function embeddings(string $model, array $payload, ?string $clientRequestId = null): self { return $this->add('embeddings', $model, $payload, $clientRequestId); }
     public function moderation(string $model, array $payload, ?string $clientRequestId = null): self { return $this->add('moderation', $model, $payload, $clientRequestId); }
